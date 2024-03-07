@@ -87,33 +87,51 @@ class UserController extends Controller
         // $user->save();
 
         
+    //     $user = UserModel::create(
+    //         [
+    //         'username' => 'manager44',
+    //         'nama' => 'Manager44',
+    //         'password' => Hash::make('12345'),
+    //         'level_id' => 2
+    //         ],
+    //     );
+
+    //     $user->username = 'manager45';
+
+    //     $user->isDirty(); //true
+    //     $user->isDirty('username'); //true
+    //     $user->isDirty('nama'); //false
+    //     $user->isDirty('nama','username'); //true
+        
+    //     $user->isClean(); //falsee
+    //     $user->isClean('username'); //false
+    //     $user->isClean('nama'); //true
+    //     $user->isClean('nama','username'); //false
+        
+    //     $user->save();
+        
+    //     $user->isDirty(); //false
+    //     $user->isClean(); //true
+    //     dd($user->isDirty());
+
         $user = UserModel::create(
             [
-            'username' => 'manager44',
-            'nama' => 'Manager44',
+            'username' => 'manager11',
+            'nama' => 'Manager1',
             'password' => Hash::make('12345'),
             'level_id' => 2
             ],
         );
 
-        $user->username = 'manager45';
+        $user->username = 'manager12';
 
-        $user->isDirty(); //true
-        $user->isDirty('username'); //true
-        $user->isDirty('nama'); //false
-        $user->isDirty('nama','username'); //true
+        $user->wasChanged(); //true
+        $user->wasChanged('username'); //true
+        $user->wasChanged('nama','username'); //true
+        $user->wasChanged('nama'); //false
+        $user->wasChanged('nama','username'); //true
+        dd($user->wasChanged(['nama','username']));
         
-        $user->isClean(); //falsee
-        $user->isClean('username'); //false
-        $user->isClean('nama'); //true
-        $user->isClean('nama','username'); //false
-        
-        $user->save();
-        
-        $user->isDirty(); //false
-        $user->isClean(); //true
-        dd($user->isDirty());
-
         return view('user', ['data' => $user]);
     }
 }
