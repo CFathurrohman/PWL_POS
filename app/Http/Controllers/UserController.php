@@ -12,6 +12,9 @@ class UserController extends Controller
 {
     public function index(){
 
+        $user = UserModel::with('level')->get();
+        return view('user', ['data' => $user]);
+
         // $data = [
         //     'username' => 'customer-1',
         //     'nama' => 'Pelanggan',
@@ -136,8 +139,8 @@ class UserController extends Controller
 
         // return view('user', ['data' => $user]);
 
-        $user = UserModel::all();
-        return view('user', ['data' => $user]);
+        // $user = UserModel::all();
+        // return view('user', ['data' => $user]);
     }
 
     public function tambah()
