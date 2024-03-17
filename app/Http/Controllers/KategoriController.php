@@ -58,4 +58,12 @@ class KategoriController extends Controller
         $kategori = KategoriModel::find($id);
         return view('kategori.edit', ['data' => $kategori]);
     }
+
+    public function delete($id)
+    {
+        $kategori = KategoriModel::find($id);
+        $kategori->delete();
+
+        return redirect('/kategori');
+    }
 }
