@@ -23,6 +23,9 @@ class KategoriDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             /* ->addColumn('action', 'kategori.action') */
+            ->addColumn('action', function ($row) {
+                return '<a href="/PWL_POS/public/kategori/edit/' . $row->kategori_id . '"class="btn btn-warning ">Edit</a>';
+            })
             ->setRowId('id');
     }
     /**
@@ -70,6 +73,9 @@ class KategoriDataTable extends DataTable
             Column::make('kategori_nama'),
             Column::make('created_at'),
             Column::make('updated_at'),
+            Column::computed('action')
+                ->exportable(false)
+                ->addClass('text-center'),
         ];
     }
     /**
