@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\DataTables\KategoriDataTable;
+use App\Models\KategoriModel;
 
 class KategoriController extends Controller
 
@@ -27,5 +28,16 @@ class KategoriController extends Controller
 
         // $data = DB::table('m_kategori')->get();
         // return view('kategori',['data' => $data]);
+    }
+
+    public function create(){
+        return view('kategori.create');
+    }
+
+    public function store(Request $request){
+        KategoriModel::create([
+            'kategori_kode' => $request->kodeKategori,
+            'kategori_nama' => $request->namaKategori,
+        ]);
     }
 }
