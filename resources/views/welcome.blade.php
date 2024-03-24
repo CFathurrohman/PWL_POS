@@ -6,99 +6,63 @@
 @section('content')
 <div class="card card-warning">
   <div class="card-header">
-    <h3 class="card-title">Home</h3>
+    <h3 class="card-title">Level Form</h3>
   </div>
   <!-- /.card-header -->
   <div class="card-body">
-    <form>
+    <form action="" method="post">
+      @csrf
       <div class="row">
         <div class="col-sm-6">
           <!-- text input -->
           <div class="form-group">
-            <label>Text</label>
-            <input type="text" class="form-control" placeholder="Enter ...">
+            <label>Level Kode</label>
+            <input type="text" class="form-control" name="level_id" placeholder="Level id">
           </div>
-        </div>
-      </div>
-
-      <!-- input states -->
-      <div class="form-group">
-        <label class="col-form-label" for="inputSuccess"><i class="fas fa-check"></i> Input with
-          success</label>
-        <input type="text" class="form-control is-valid" id="inputSuccess" placeholder="Enter ...">
-      </div>
-
-      <div class="row">
-        <div class="col-sm-6">
-          <!-- checkbox -->
           <div class="form-group">
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox">
-              <label class="form-check-label">Checkbox</label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" checked>
-              <label class="form-check-label">Checkbox checked</label>
-            </div>
+            <label>Level Nama</label>
+            <input type="text" class="form-control" name="level_name" placeholder="Level name">
           </div>
-        </div>
-        <div class="col-sm-12">
-          <!-- radio -->
-          <div class="form-group">
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="radio1">
-              <label class="form-check-label">Radio</label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="radio1" checked>
-              <label class="form-check-label">Radio checked</label>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-sm-12">
-          <!-- select -->
-          <div class="form-group">
-            <label>Select</label>
-            <select class="form-control">
-              <option>option 1</option>
-              <option>option 2</option>
-              <option>option 3</option>
-              <option>option 4</option>
-              <option>option 5</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-sm-12">
-          <!-- Select multiple-->
-          <div class="form-group">
-            <label>Select Multiple</label>
-            <select multiple class="form-control">
-              <option>option 1</option>
-              <option>option 2</option>
-              <option>option 3</option>
-              <option>option 4</option>
-              <option>option 5</option>
-            </select>
-          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
         </div>
       </div>
     </form>
   </div>
   <!-- /.card-body -->
 </div>
-                @stop
-                @section('css')
-                    {{-- Add here extra stylesheets --}}
-                    {{-- <link rel="stylesheet" href="/css/admin_custom.css"> --}}
-                @stop
-                @section('js')
-                    <script>
-                        console.log("Hi, I'm using the Laravel-AdminLTE package!");
-                    </script>
-                @stop
+
+<div class="card card-warning">
+  <div class="card-header">
+    <h3 class="card-title">User Form</h3>
+  </div>
+  <!-- /.card-header -->
+  <div class="card-body">
+    <form action="" method="post">
+      @csrf
+      <div class="row">
+        <div class="col-sm-6">
+          <!-- text input -->
+          <div class="form-group">
+            <label>User ID</label>
+            <input type="text" class="form-control" name="user_id" placeholder="User id">
+          </div>
+          <div class="form-group">
+            <label>Username</label>
+            <input type="text" class="form-control" name="username" placeholder="Username">
+          </div>
+          <div class="form-group">
+            <label>Nama</label>
+            <input type="text" class="form-control" name="nama" placeholder="Nama">
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" class="form-control" name="password" placeholder="Password">
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <!-- /.card-body -->
+</div>
+@stop
