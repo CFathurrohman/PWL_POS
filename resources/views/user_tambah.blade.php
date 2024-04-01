@@ -6,14 +6,6 @@
 </head>
 
 <body>
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <strong>Ops</strong> Input gagal<br><br>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-    @endif
     <h1>Form Tambah Data User</h1>
     <form method="post" action="tambah_simpan">
 

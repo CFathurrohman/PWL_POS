@@ -7,6 +7,16 @@
 
 {{-- Content body: main page content --}}
 @section('content')
+@if ($errors->any())
+<div class="alert alert-danger">
+    <strong>Ops</strong> Input gagal<br><br>
+    <ul>
+        @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div> 
+@endif
 <div class="container">
     <div class="card card-primary">
         <div class="card-header">
@@ -17,11 +27,14 @@
             <div class="card-body">
                 <div class="form-group">
                     <label for="kodeKategori">Kode Kategori</label>
-                    <input type="text" class="form-control" id="kodeKategori" name="kodeKategori" placeholder="Masukan kode kategori">
+                    <input type="text" class="form-control" id="kategori_kode" name="kategori_kode" placeholder="Masukan kode kategori" class="@error('kategori_kode') is-invalid @enderror">
+                    @error('kategori_kode')
+                        <div class="aler alert-danger">{{ $message }}</div>                        `
+                    @enderror
                 </div>
                 <div class="form-group">
                     <label for="namaKategori">Nama Kategori</label>
-                    <input type="text" class="form-control" id="namaKategori" name="namaKategori" placeholder="Masukan nama kategori">
+                    <input type="text" class="form-control" id="kategori_nama" name="kategori_nama" placeholder="Masukan nama kategori">
                 </div>
             </div>
 
