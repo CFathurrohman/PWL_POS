@@ -4,7 +4,7 @@
         <div class="card-header">
             <h3 class="card-title">{{ $page->title }}</h3>
             <div class="card-tools">
-                <a href="{{ url('kategori/create') }}" class="btn btn-sm btn-primary mt-1">Tambah</a>
+                <a href="{{ url('stok/create') }}" class="btn btn-sm btn-primary mt-1">Tambah</a>
             </div>
         </div>
         <div class="card-body">
@@ -18,22 +18,24 @@
                 <div class="col-md-12">
                     <label class="col-1 control-label col-form-label">Filter:</label>
                     <div class="col-3">
-                        <select name="kategori_id" id="kategori_id" class="form-control" required>
+                        <select name="barang_id" id="barang_id" class="form-control" required>
                             <option value="">- Semua -</option>
-                            @foreach ($kategori as $item)
-                                <option value="{{ $item->kategori_id }}">{{ $item->kategori_nama }}</option>
+                            @foreach ($barang as $item)
+                                <option value="{{ $item->barang_id }}">{{ $item->barang_nama }}</option>
                             @endforeach
                         </select>
-                        <small class="form-text text-muted">Nama Kategori</small>
+                        <small class="form-text text-muted">Nama Barang</small>
                     </div>
                 </div>
             </div>
-            <table class="table table-bordered table-striped table-hover table-sm" id="table_kategori">
+            <table class="table table-bordered table-striped table-hover table-sm" id="table_stok">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Kode Kategori</th>
-                        <th>Nama</th>
+                        <th>Nama Barang</th>
+                        <th>Petugas</th>
+                        <th>Tanggal Stok</th>
+                        <th>Jumlah</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -43,17 +45,18 @@
 @endsection
 @push('css')
 @endpush
+
 @push('js')
     <script>
         $(document).ready(function() {
-            var dataUser = $('#table_kategori').DataTable({
+            var dataUser = $('#table_stok').DataTable({
                 serverSide: true, //serverside true jika ingin menggunakan server side processing
                 ajax: {
-                    "url": "{{ url('kategori/list') }}",
+                    "url": "{{ url('stok/list') }}",
                     "dataType": "json",
                     "type": "POST",
                     "data": function(d) {
-                        d.kategori_id = $('#kategori_id').val();
+                        d.barang_id = $('#barang_id').val();
                     }
                 },
                 columns: [{
@@ -62,12 +65,22 @@
                     orderable: false,
                     searchable: false
                 }, {
-                    data: "kategori_kode",
+                    data: "barang.barang_nama",
                     classname: "",
                     orderable: true,
                     searchable: true
                 }, {
-                    data: "kategori_nama",
+                    data: "user.nama",
+                    classname: "",
+                    orderable: true,
+                    searchable: true
+                }, {
+                    data: "stok_tanggal",
+                    classname: "",
+                    orderable: false,
+                    searchable: false
+                }, {
+                    data: "stok_jumlah",
                     classname: "",
                     orderable: false,
                     searchable: false
@@ -78,7 +91,7 @@
                     searchable: false
                 }]
             });
-            $('#kategori_id').on('change', function() {
+            $('#barang_id').on('change', function() {
                 dataUser.ajax.reload();
             });
         });

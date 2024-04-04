@@ -33,26 +33,27 @@ class UserController extends Controller
         $users = UserModel::select('user_id', 'username', 'nama', 'level_id')
             ->with('level');
 
-        if ($request->level_id){
+        if ($request->level_id) {
             $users->where('level_id', $request->level_id);
         }
 
         return DataTables::of($users)
-            ->addIndexColumn() // menambahkan kolom index / no urut (default nama kolom: DT_RowIndex)
-            ->addColumn('aksi', function ($user) { // menambahkan kolom aksi
-                $btn = '<a href="' . url('/user/' . $user->user_id) . '" class="btn btn-info btn-sm">Detail</a> ';
-                $btn .= '<a href="' . url('/user/' . $user->user_id . '/edit') . '" class="btn btn-warning btn-sm">Edit</a> ';
+            ->addIndexColumn()
+            ->addColumn('aksi', function ($user) { 
+                $btn = '<a href="' . url('/user/' . $user->user_id) . '" class="btn btn-info btn-sm mr-2">Detail</a> ';
+                $btn .= '<a href="' . url('/user/' . $user->user_id . '/edit') . '" class="btn btn-warning btn-sm mr-2">Edit</a> ';
                 $btn .= '<form class="d-inline-block" method="POST" action="' .
                     url('/user/' . $user->user_id) . '">' .
                     csrf_field() . method_field('DELETE') .
                     '<button type="submit" class="btn btn-danger btn-sm" onclick="return confirm(\'Apakah Anda yakin menghapus data ini?\');">Hapus</button></form>';
                 return $btn;
             })
-            ->rawColumns(['aksi']) // memberitahu bahwa kolom aksi adalah html
+            ->rawColumns(['aksi']) 
             ->make(true);
     }
 
-    public function create(){
+    public function create()
+    {
         $breadcrumb = (object)[
             'title' => 'Tambah User',
             'list' => ['Home', 'User', 'Tambah']
@@ -65,10 +66,11 @@ class UserController extends Controller
         $level = LevelModel::all();
         $activeMenu = 'user';
 
-        return view('user.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'level' =>  $level, 'activeMenu' => $activeMenu]); 
+        return view('user.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'level' =>  $level, 'activeMenu' => $activeMenu]);
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $request->validate([
             'username' => 'required|string|min:3|unique:m_user,username',
             'nama' => 'required|string|max:100',
@@ -86,12 +88,13 @@ class UserController extends Controller
         return redirect('/user')->with('success', 'Data user berhasil disimipan');
     }
 
-    public function show(String $id){
+    public function show(String $id)
+    {
         $user = UserModel::with('level')->find($id);
 
         $breadcrumb = (object) [
             'title' => 'Detail User',
-            'list' => ['Home','User','Detail'],
+            'list' => ['Home', 'User', 'Detail'],
         ];
 
         $page = (object) [
@@ -100,11 +103,12 @@ class UserController extends Controller
 
         $activeMenu = 'user';
 
-        return view('user.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'user' =>  $user, 'activeMenu' => $activeMenu]); 
+        return view('user.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'user' =>  $user, 'activeMenu' => $activeMenu]);
     }
 
     //Menampilkan halaman form edit user
-    public function edit(String $id){
+    public function edit(String $id)
+    {
         $user = UserModel::find($id);
         $level = LevelModel::all();
 
@@ -119,14 +123,14 @@ class UserController extends Controller
 
         $activeMenu = 'user';
 
-        return view('user.edit', ['breadcrumb' => $breadcrumb, 'page' => $page,'user' => $user, 'level' =>  $level, 'activeMenu' => $activeMenu]);
+        return view('user.edit', ['breadcrumb' => $breadcrumb, 'page' => $page, 'user' => $user, 'level' =>  $level, 'activeMenu' => $activeMenu]);
     }
 
     //Menyimpan perubahan data user
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'username' => 'required|string|min:3|unique:m_user,username,'.$id.',user_id',
+            'username' => 'required|string|min:3|unique:m_user,username,' . $id . ',user_id',
             'nama' => 'required|string|max:100',
             'password' => 'required|min:5',
             'level_id' => 'required|integer'
@@ -139,22 +143,22 @@ class UserController extends Controller
             'level_id' => $request->level_id
         ]);
 
-        return redirect('/user')->with('success','Data user berhasil diubah');
+        return redirect('/user')->with('success', 'Data user berhasil diubah');
     }
 
-    public function destroy(string $id){
+    public function destroy(string $id)
+    {
         $check = UserModel::find($id);
-        if(!$check){
+        if (!$check) {
             return redirect('/user')->with('error', 'Data user tidak ditemukan');
         }
 
         try {
             UserModel::destroy($id);
-            
+
             return redirect('/user')->with('success', 'Data user berhasil dihapus');
-        } catch(\Illuminate\Database\QueryException $e){
+        } catch (\Illuminate\Database\QueryException $e) {
             return redirect('/user')->with('error', 'Data user gagal dihapus karena masih terdadpat tabel lain yang terkait data ini');
         }
-        
     }
 }

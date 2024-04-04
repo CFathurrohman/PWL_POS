@@ -20,12 +20,12 @@
                     <label class="col-1 control-label col-form-label">Filter:</label>
                     <div class="col-3">
                         <select class="form-control" name="level_id" id="level_id" required>
-                            <option value="">- Semua -</option> <!-- Tambahkan opsi "Semua" -->
+                            <option value="">- Semua -</option> 
                             @foreach ($level as $item)
                                 <option value="{{ $item->level_id }}">{{ $item->level_nama }}</option>
                             @endforeach
                         </select>                        
-                    <small class="form-texxt text-muted">Level Pengguna</small>
+                    <small class="form-text text-muted">Level Pengguna</small>
                     </div>
                 </div>
             </div>
