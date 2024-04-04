@@ -23,12 +23,11 @@ Route::resource('m_user', POScontroller::class);
 
 Route::group(['prefix' => 'user'], function(){
     Route::get('/', [UserController::class, 'index']);
-    Route::post('/', [UserController::class, 'store']);
     Route::post('/list', [UserController::class, 'list']);
     Route::get('/create', [UserController::class, 'create']);
-    Route::post('/store', [UserController::class, 'store']);
+    Route::post('/', [UserController::class, 'store']);
     Route::get('/{id}', [UserController::class, 'show']);
     Route::get('/{id}/edit', [UserController::class, 'edit']);
-    Route::put('/{id}/update', [UserController::class, 'update']);
+    Route::put('/{id}   ', [UserController::class, 'update']);
     Route::delete('/{id}', [UserController::class, 'destroy']);
 });

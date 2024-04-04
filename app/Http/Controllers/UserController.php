@@ -78,5 +78,77 @@ class UserController extends Controller
         ]);
 
         return redirect('/user')->with('success', 'Data user berhasil disimipan');
-    } 
+    }
+
+    public function show(String $id){
+        $user = UserModel::with('level')->find($id);
+
+        $breadcrumb = (object) [
+            'title' => 'Detail User',
+            'list' => ['Home','User','Detail'],
+        ];
+
+        $page = (object) [
+            'title' => 'Detail User'
+        ];
+
+        $activeMenu = 'user';
+
+        return view('user.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'user' =>  $user, 'activeMenu' => $activeMenu]); 
+    }
+
+    //Menampilkan halaman form edit user
+    public function edit(String $id){
+        $user = UserModel::find($id);
+        $level = LevelModel::all();
+
+        $breadcrumb = (object) [
+            'title' => 'Edit user',
+            'list' => ['Home', 'User', 'Edit']
+        ];
+
+        $page = (object) [
+            'title' => 'Edit User',
+        ];
+
+        $activeMenu = 'user';
+
+        return view('user.edit', ['breadcrumb' => $breadcrumb, 'page' => $page,'user' => $user, 'level' =>  $level, 'activeMenu' => $activeMenu]);
+    }
+
+    //Menyimpan perubahan data user
+    public function update(Request $request, string $id)
+    {
+        $request->validate([
+            'username' => 'required|string|min:3|unique:m_user,username,'.$id.',user_id',
+            'nama' => 'required|string|max:100',
+            'password' => 'required|min:5',
+            'level_id' => 'required|integer'
+        ]);
+
+        UserModel::find($id)->update([
+            'username' => $request->username,
+            'nama' => $request->nama,
+            'password' => $request->password ? bcrypt($request->password) : UserModel::find($id)->password,
+            'level_id' => $request->level_id
+        ]);
+
+        return redirect('/user')->with('success','Data user berhasil diubah');
+    }
+
+    public function destroy(string $id){
+        $check = UserModel::find($id);
+        if(!$check){
+            return redirect('/user')->with('error', 'Data user tidak ditemukan');
+        }
+
+        try {
+            UserModel::destroy($id);
+            
+            return redirect('/user')->with('success', 'Data user berhasil dihapus');
+        } catch(\Illuminate\Database\QueryException $e){
+            return redirect('/user')->with('error', 'Data user gagal dihapus karena masih terdadpat tabel lain yang terkait data ini');
+        }
+        
+    }
 }
