@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Api\RegisterController;
 use App\Http\Controllers\Api\LoginController;
+use App\Http\Controllers\Api\UserController;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,4 +24,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/register', RegisterController::class)->name('register');
 Route::post('/login', LoginController::class)->name('login');
-Route::post('/user', LoginController::class)->name('login');
+
+Route::get('user', [UserController::class, 'index']);
+    Route::post('user', [UserController::class, 'store']);
+    Route::get('user/{user}', [UserController::class, 'show']);
+    Route::put('user/{user}', [UserController::class, 'update']);
+    Route::delete('user/{user}', [UserController::class, 'destroy']);
