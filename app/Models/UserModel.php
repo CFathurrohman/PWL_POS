@@ -2,12 +2,30 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\Authenticatable;
+use App\Models\LevelModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class UserModel extends Model implements Authenticatable
+class UserModel extends Authenticatable implements JWTSubject
 {
+
+    use Notifiable;
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
+
     use HasFactory;
 
     protected $table = "m_user";
@@ -21,40 +39,8 @@ class UserModel extends Model implements Authenticatable
         'password',
     ];
 
-    public function level()
+    public function level(): BelongsTo
     {
         return $this->belongsTo(LevelModel::class, 'level_id', 'level_id');
-    }
-
-    // Implementing required methods from Authenticatable interface
-
-    public function getAuthIdentifierName()
-    {
-        return 'user_id';
-    }
-
-    public function getAuthIdentifier()
-    {
-        return $this->getAttribute('user_id');
-    }
-
-    public function getAuthPassword()
-    {
-        return $this->getAttribute('password');
-    }
-
-    public function getRememberToken()
-    {
-        return null; 
-    }
-
-    public function setRememberToken($value)
-    {
-        
-    }
-
-    public function getRememberTokenName()
-    {
-        return null; 
     }
 }
