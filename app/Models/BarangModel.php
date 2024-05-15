@@ -30,9 +30,9 @@ class BarangModel extends Model
         return $this->hasMany(StokModel::class, 'barang_id', 'barang_id');
     }
 
-    public function image(): Attribute{
-        return Attribute::make(
-            get: fn ($image) => url('/storage/barang/' . $image),
-        );
-    }
+    // public function image(): Attribute{
+    //     return Attribute::make(
+    //         get: fn ($image) => url('/storage/barang/' . $image),
+    //     );
+    // }
 }

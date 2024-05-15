@@ -13,8 +13,7 @@
                 </div>
                 <a href="{{ url('user') }}" class="btn btn-sm btn-default mt-2">Kembali</a>
             @else
-                <form method="POST" action="{{ url('/user/' . $user->user_id . '/update') }}" class="form-horizontal">
-                    @csrf   
+            <form action="{{url('/barang/'.$barang->barang_id)}}" method="POST" class="form-horizontal" enctype="multipart/form-data">                    @csrf   
                     @method('PUT')
                     <div class="form-group row">
                         <label class="col-1 control-label col-form-label">Level</label>
@@ -59,6 +58,16 @@
                                 <small class="form-text text-danger">{{ $message }}</small>
                             @else
                                 <small class="form-text text-muted">Abaikan (jangan diisi) jika tidak ingin mengganti password user.</small>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="image" class="col-1 control-label col-form-label">Gambar User</label>
+                        <div class="col-11">
+                            <input type="file" class="form-control" id="image" name="image"
+                                value="{{ old('image') }}" required>
+                            @error('image')
+                                <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
                         </div>
                     </div>
