@@ -27,7 +27,7 @@ class BarangController extends Controller
 
     public function list(Request $request)
     {
-        $barangs = BarangModel::select('barang_id', 'kategori_id', 'barang_kode', 'barang_nama', 'harga_beli', 'harga_jual')->with('kategori');
+        $barangs = BarangModel::select('barang_id', 'kategori_id', 'barang_kode', 'barang_nama', 'harga_beli', 'harga_jual', 'image')->with('kategori');
 
         if ($request->kategori_id) {
             $barangs->where('kategori_id', $request->kategori_id);
@@ -67,15 +67,21 @@ class BarangController extends Controller
             'barang_nama' => 'required|string|max:100|unique:m_barang,barang_nama',
             'harga_beli' => 'required|integer',
             'harga_jual' => 'required|integer',
-            'kategori_id' => 'required|integer'
+            'kategori_id' => 'required|integer',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:5048'
         ]);
-
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $hashedName = $image->hashName();
+            $image->storeAs('public/barang', $hashedName);
+        }
         BarangModel::create([
             'barang_kode' => $request->barang_kode,
             'barang_nama' => $request->barang_nama,
             'harga_jual' => $request->harga_jual,
             'harga_beli' => $request->harga_beli,
-            'kategori_id' => $request->kategori_id
+            'kategori_id' => $request->kategori_id,
+            'image' => $hashedName,
         ]);
         return redirect('/barang')->with('success', 'Data barang berhasil disimpan');
     }

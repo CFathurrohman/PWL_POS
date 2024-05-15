@@ -38,6 +38,7 @@
                         <th>Nama Barang</th>
                         <th>Harga Beli</th>
                         <th>Harga Jual</th>
+                        <th>Image</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -92,6 +93,15 @@
                     className: "",
                     orderable: false,
                     searchable: false
+                }, {
+                    data: "image",
+                    className: "",
+                    orderable: true,
+                    searchable: true,
+                    render: function(data, type, full, meta) {
+                        return data ? '<img src=' + data + ' width="100px">' :
+                            '';
+                    }
                 }, {
                     data: "aksi",
                     className: "",
