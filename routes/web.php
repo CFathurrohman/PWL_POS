@@ -13,12 +13,15 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\FileUploadController;
 use App\Http\Controllers\ManagerController;
 
-Route::get('/',[WelcomeController::class, 'index']);
+Route::get('/', [WelcomeController::class, 'index']);
 
 Route::get('/file-upload', [FileUploadController::class, 'fileUpload']);
 Route::post('/file-upload', [FileUploadController::class, 'prosesFileUpload']);
+Route::get('/show-gambar', function () {
+    return view('show-gambar');
+})->name('showGambar');
 
-Route::group(['prefix' => 'user'], function(){
+Route::group(['prefix' => 'user'], function () {
     Route::get('/', [UserController::class, 'index']);
     Route::post('/list', [UserController::class, 'list']);
     Route::get('/create', [UserController::class, 'create']);
@@ -74,28 +77,28 @@ Route::group(['prefix' => 'stok'], function () {
 });
 
 Route::group(['prefix' => 'penjualan'], function () {
-    Route::get('/', [PenjualanController::class, 'index']); 
+    Route::get('/', [PenjualanController::class, 'index']);
     Route::post('/list', [PenjualanController::class, 'list']);
-    Route::get('/create', [PenjualanController::class, 'create']); 
-    Route::post('/', [PenjualanController::class, 'store']); 
+    Route::get('/create', [PenjualanController::class, 'create']);
+    Route::post('/', [PenjualanController::class, 'store']);
     Route::get('/{id}', [PenjualanController::class, 'show']);
-    Route::get('/{id}/edit', [PenjualanController::class, 'edit']); 
-    Route::put('/{id}', [PenjualanController::class, 'update']); 
-    Route::delete('/{id}', [PenjualanController::class, 'destroy']); 
+    Route::get('/{id}/edit', [PenjualanController::class, 'edit']);
+    Route::put('/{id}', [PenjualanController::class, 'update']);
+    Route::delete('/{id}', [PenjualanController::class, 'destroy']);
 });
 
-Route::get('login', [AuthController::class, 'index'])->name('login');   
+Route::get('login', [AuthController::class, 'index'])->name('login');
 Route::get('register', [AuthController::class, 'register'])->name('register');
 Route::post('proses_login', [AuthController::class, 'proses_login'])->name('proses_login');
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 Route::post('proses_register', [AuthController::class, 'proses_register'])->name('proses_register');
 
-Route::group(['middleware' => ['auth']], function(){
+Route::group(['middleware' => ['auth']], function () {
 
-    Route::group(['middleware' => ['cek_login:1']], function(){
+    Route::group(['middleware' => ['cek_login:1']], function () {
         Route::resource('admin', AdminController::class);
     });
-    Route::group(['middleware' => ['cek_login:2']], function(){
+    Route::group(['middleware' => ['cek_login:2']], function () {
         Route::resource('manager', ManagerController::class);
     });
 });

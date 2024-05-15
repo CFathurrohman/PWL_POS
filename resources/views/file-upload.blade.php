@@ -17,10 +17,13 @@
 
         <form action="{{ url('/file-upload') }}" method="POST" enctype="multipart/form-data">
             @csrf
-
+            <div class="mb-3">
+                <label for="nama_file" class="form-label">Nama File</label>
+                <input type="text" class="form-control" id="nama_file" name="nama_file" required>
+            </div>
             <div class="mb-3">
                 <label for="berkas" class="form-label">Gambar Profile</label>
-                <input type="file" class="form-control" id="berkas" name="berkas">
+                <input type="file" class="form-control" id="berkas" name="berkas" required>
                 @error('berkas')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
@@ -28,6 +31,14 @@
 
             <button type="submit" class="btn btn-primary my-2">Upload</button>
         </form>
+    </div>
+
+    <div class="image-container">
+        @if(isset($pathBaru))
+            <h3>Gambar yang Diunggah</h3>
+            <h5>Nama File: {{ basename($pathBaru) }}</h5>
+            <img src="{{ $pathBaru }}" alt="Gambar" class="img-fluid">
+        @endif
     </div>
 </body>
 
